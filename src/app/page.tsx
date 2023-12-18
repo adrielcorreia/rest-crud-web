@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import {
@@ -103,7 +104,7 @@ export default function Home() {
   }
 
   return (
-    <div className="px-96 flex flex-col gap-5 mt-5">
+    <div className="px-72 flex flex-col gap-5 mt-5">
       <div className="flex items-center gap-2">
         <Input
           onChange={(e) => setTextInput(e.target.value)}
@@ -117,28 +118,31 @@ export default function Home() {
 
       {/* {loading && <p>Carregando...</p>} */}
 
-      {loading && (
+      { loading && (
         <div className="space-y-3">
           <Skeleton className="w-3/5 rounded-lg">
             <div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
           </Skeleton>
+
           <Skeleton className="w-4/5 rounded-lg">
             <div className="h-3 w-4/5 rounded-lg bg-default-200"></div>
           </Skeleton>
+
           <Skeleton className="w-2/5 rounded-lg">
             <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
           </Skeleton>
         </div>
-      )}
+      ) }
 
-      <ul className="grid grid-cols-[repeat(auto-fill, min(200px))]">
+      <ul className="grid gap-6 grid-cols-[repeat(auto-fill,min(200px))] justify-between">
         {items.map((item) => (
           <li key={item.id}>
             <Card
               shadow="sm"
               isPressable
               onPress={() => console.log("item pressed")}
-            >
+              >
+
               <CardBody className="overflow-visible p-0">
                 <Image
                   shadow="sm"
@@ -147,12 +151,23 @@ export default function Home() {
                   alt={item.title}
                   className="object-cover h-[140px] w-[200px]"
                   src="https://picsum.photos/400/300"
-                />
+                  />
               </CardBody>
+
               <CardFooter className="text-small justify-between">
                 <b>{item.title}</b>
-                <p className="text-default-500">{item.price}</p>
+                
+                <p className="text-default-500">
+                  {
+                    Intl.NumberFormat('pt-br', { 
+                      style: 'currency', 
+                      currency: 'BRL' 
+
+                    }).format(item.price)
+                  }
+                </p>
               </CardFooter>
+
             </Card>
           </li>
         ))}
